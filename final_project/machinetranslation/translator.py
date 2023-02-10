@@ -1,42 +1,43 @@
 import json
+import os
 from ibm_watson import LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-apikey = os.environ['vHvvYp0APui1nimm0vJRzKfxTfT2VsJXG7ZbNQTvyXyH']
-url = os.environ['https://api.us-east.language-translator.watson.cloud.ibm.com/instances/99298ab4-62fd-40cf-8f8f-8eea39e595ab']
+apikey = os.environ.get('vHvvYp0APui1nimm0vJRzKfxTfT2VsJXG7ZbNQTvyXyH')
+url = os.environ.get('https://api.us-east.language-translator.watson.cloud.ibm.com/instances/99298ab4-62fd-40cf-8f8f-8eea39e595ab')
 
 # Set some variables
-api_key = 'vHvvYp0APui1nimm0vJRzKfxTfT2VsJXG7ZbNQTvyXyH'
-api_url = 'https://api.us-east.language-translator.watson.cloud.ibm.com/instances/99298ab4-62fd-40cf-8f8f-8eea39e595ab'
-model_id = 'en-fr'
-text_to_translate = 'Your content you want translate here'
+API_KEY = 'vHvvYp0APui1nimm0vJRzKfxTfT2VsJXG7ZbNQTvyXyH'
+API_URL = 'https://api.us-east.language-translator.watson.cloud.ibm.com/instances/99298ab4-62fd-40cf-8f8f-8eea39e595ab'
+MODEL_ID = 'en-fr'
+TEXT_TO_TRANSLATE = 'Your content you want to translate here'
 
 # Prepare the Authenticator
-authenticator = IAMAuthenticator(api_key)
+authenticator = IAMAuthenticator(API_KEY)
 language_translator = LanguageTranslatorV3(
     version='2018-05-01',
     authenticator=authenticator
 )
 
-language_translator.set_service_url(api_url )
+language_translator.set_service_url(API_URL )
 
 # Translate
-def englishToFrench(englishText):
+def english_to_french(english_text):
+    """ This is for translating """
     translation = language_translator.translate(
-    text=text_to_translate,
-    model_id=model_id).get_result()
-    return frenchText
-    
+    text=TEXT_TO_TRANSLATE,
+    model_id=MODEL_ID).get_result()
+    return translation
 
-def frenchToEnglish(frenchText):
+def french_to_english(french_text):
+    """ This is for translating """
     translation = language_translator.translate(
-    text=text_to_translate,
-    model_id=model_id).get_result()
-    return englishText
+    text=TEXT_TO_TRANSLATE,
+    model_id=MODEL_ID).get_result()
+    return translation
 
 # Print results
-print(json.dumps(translation, indent=2, ensure_ascii=False))
+print(json.dumps((english_to_french, french_to_english), indent=2, ensure_ascii=False))
